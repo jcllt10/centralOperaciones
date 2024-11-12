@@ -1,5 +1,6 @@
 package com.juanca.microservicio.controller;
 
+import com.juanca.microservicio.clientes.IResultadoClienteRest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +13,9 @@ public class OperacionController {
     @Autowired
     private RestTemplate clienteRest;
     
+    @Autowired
+    private IResultadoClienteRest clienteFeign;
+    
     @GetMapping("/sumar")
     public String sumar(@RequestParam float a,@RequestParam float b){
         
@@ -21,7 +25,7 @@ public class OperacionController {
     }
     
     @GetMapping("/restar")
-    public float restar(@RequestParam float a,@RequestParam float b){
-       return a - b;
+    public String restar(@RequestParam float a,@RequestParam float b){
+       return clienteFeign.mostrarResultado(a - b);
     }
 }
